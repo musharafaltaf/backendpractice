@@ -15,7 +15,7 @@ app.use(express.static("public"))
 app.use(cookieParse())
 
 // routes
-import userRouter from "./routes/user.route.js"
+import userRouter from "./routes/user.route.js"  // finally i was cached here (bug)=>..
 
 
 //routes decleration
