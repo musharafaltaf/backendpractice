@@ -88,7 +88,7 @@ const registerUser = asyncHandler( async(req,res) => {
     )
 
 
-    const createdUser = await newuser.findById(newuser._id).select(
+    const createdUser = await user.findById(user._id).select(
         "-password -refreshtoken"
     )
 
@@ -113,11 +113,15 @@ const loginUser = asyncHandler(async(req,res)=>{
 
 
 
-    const {username,email} = req.body
+    const {username,email,password} = req.body
 
-    if (!username || !email) {
+    console.log(email)
+
+    if(!username || !email){
+    if (!username && !email) {
         throw new ApiError(400,"username or email is required")
     }
+}
 
     const newuser = await user.findOne({
         $or:[{username},{email}]
@@ -135,7 +139,7 @@ const loginUser = asyncHandler(async(req,res)=>{
 
     const {accessToken,refreshToken} = await generateAccessTokenAndRefreshToken(newuser._id)
 
-    const loggedInUser = await user.findById(newuser._Id)
+    const loggedInUser = await user.findById(newuser._id)
     select("-password -refreshToken")
 
     const options = {
